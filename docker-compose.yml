@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php-apache
+    ports:
+      - "80:80"               # http://localhost
+    volumes:
+      - ./www:/var/www/html:cached
+      - ./php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+    environment:
+      - APACHE_LOG_DIR=/var/log/apache2
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:11.3
+    container_name: mariadb-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    ports:
+      - "3306:3306"           # optionnel (connexion depuis l’hôte)
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: ${MARIADB_USER}
+      PMA_PASSWORD: ${MARIADB_PASSWORD}
+      UPLOAD_LIMIT: 128M
+    ports:
+      - "8081:80"             # http://localhost:8081
+    depends_on:
+      - db
+
+volumes:
+  mariadb-data:
