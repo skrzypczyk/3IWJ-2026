@@ -27,6 +27,39 @@
             "1A"=>[]
         ];
 
+
         //Afficher un tableau HTML avec Nom et prénom et moyenne
         //Dans l'ordre de classement au sein de la classe
         //Formule de la moyenne (CC1+CC2+Partiel*2)/4
+
+        $classJ = $esgi["3A"]["IW"]["classe J"];
+
+
+        $studentsOrdered = [];
+        foreach($classJ as $student){
+            $average = ($student["CC1"]+$student["CC2"]+$student["Partiel"]*2)/4;
+            $average = round($average, 1);
+            $studentsOrdered[$average*10][] = $student;
+        }
+        krsort($studentsOrdered);
+
+
+
+        echo "<table>";
+        echo "<tr>";
+        echo "<th>Nom</th>";
+        echo "<th>Prénom</th>";
+        echo "<th>Moyenne</th>";
+        echo "</tr>";
+
+        foreach($studentsOrdered as $average => $students){
+
+            foreach($students as $student){
+                echo "<tr>";
+                echo "<td>".$student["lastname"]."</td>";
+                echo "<td>".$student["firstname"]."</td>";
+                echo "<td>".($average/10)."</td>";
+                echo "</tr>";
+            }
+        }
+        echo "</table>";
