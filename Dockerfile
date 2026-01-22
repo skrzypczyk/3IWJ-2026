@@ -2,16 +2,18 @@
 FROM php:8.2-apache
 
 # Installer les dépendances nécessaires pour PostgreSQL et activer modules
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpq-dev \
-    unzip \
+RUN apt-get update && apt-get install -y \
     git \
-    libyaml-dev \
-    && pecl install yamL \
-    && docker-php-ext-install pdo pdo_pgsql pgsql \
-    && docker-php-ext-enable yaml \
-    && a2enmod rewrite \
-    && rm -rf /var/lib/apt/lists/*
+    unzip \
+    libicu-dev \
+    libzip-dev \
+    libpq-dev \
+    && docker-php-ext-install \
+    intl \
+    pdo \
+    pdo_mysql \
+    zip \
+    opcache
 
 # Copier un php.ini personnalisé si besoin (monté via docker-compose)
 # WORKDIR /var/www/html
