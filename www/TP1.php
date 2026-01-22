@@ -51,7 +51,6 @@
         echo "<th>Prénom</th>";
         echo "<th>Moyenne</th>";
         echo "</tr>";
-
         foreach($studentsOrdered as $average => $students){
 
             foreach($students as $student){

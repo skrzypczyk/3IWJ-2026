@@ -195,7 +195,7 @@
         ];
 
         $classeJ = $esgi["3A"]["IW"]["classe J"];
-        echo $classeJ[1]["firstname"];
+        //echo $classeJ[1]["firstname"];
 
 
         $array = [[],[[[],[[[],[]]]],[[]]]];
@@ -203,6 +203,51 @@
 
         //echo "<pre>";
         //print_r($array);
+
+
+
+        //Les fonctions
+
+        function helloWorld(){
+            echo "Bonjour tout le monde";
+        }
+
+        //helloWorld();
+
+        //Variable globale
+        $myFirstname = "Yves";
+        $myLastname = "SKRZYPCZYK";
+
+        function helloYou($myLastname){
+            global $myFirstname;
+            //Variable locale
+            echo "Bonjour ".$myFirstname." ".$myLastname;
+        }
+
+        //helloYou($myLastname);
+
+
+        $myLastname="    SKrzYPCZYk   ";
+        function cleanAndValidLastname(&$myLastname){
+
+            $myLastname = trim($myLastname);
+            $myLastname = strtoupper($myLastname);
+
+            if(strlen($myLastname)<2){
+                return false;
+            }
+            return true;
+        }
+
+
+
+        if(  cleanAndValidLastname($myLastname)  ){
+            echo "Welcome ".$myLastname;
+
+        }else{
+            echo "Non de famille incorrect";
+        }
+
 
     ?>
 
